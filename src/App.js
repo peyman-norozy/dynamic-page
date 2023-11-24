@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import components from "./component/DynamicComponentsData";
+import DynamicComponent from "./component/DynamicComponent";
+import "./App.css";
+import Link from "./component/Link";
 
 function App() {
+  let dynamicComponents = components;
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <Link />
+        <Routes>
+          {dynamicComponents.map((item, index) => {
+            return (
+              <Route
+                exact
+                key={index}
+                path={item.route}
+                Component={() => (
+                  <DynamicComponent title={item.title} content={item.content} />
+                )}
+              />
+            );
+          })}
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
